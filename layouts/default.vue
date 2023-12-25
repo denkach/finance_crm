@@ -8,7 +8,6 @@
     <div>
       <slot />
     </div>
-    <UiButton/>
   </section>
 </template>
 

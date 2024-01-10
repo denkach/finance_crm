@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { ICard, IColumn } from '~/components/kanban/kanban.types';
 import { useKanbanQuery } from '~/components/kanban/useKanbanQuery';
+import { convertCurrency } from '@/lib/convertCurrency';
+import dayjs from 'dayjs';
 
 useHead({
   title: "Home | CRM System",
@@ -22,10 +24,13 @@ const { data,  isLoading, refetch } = useKanbanQuery();
           {{ column.name }}
         </div>
         <div>
-          <UiCard class="mb-3" draggable="true">
-            <UiCardHeader role="button">name card</UiCardHeader>
-            <UiCardContent>Company</UiCardContent>
-            <UiCardFooter>Date</UiCardFooter>
+          <UiCard v-for="card in column.items" :key="card.id" class="mb-3" draggable="true">
+            <UiCardHeader role="button">
+              <UiCardTitle>{{ card.name }}</UiCardTitle>
+              <UiCardDescription>{{ convertCurrency(card.price) }}</UiCardDescription>
+            </UiCardHeader>
+            <UiCardContent>Company {{ card.companyName }}</UiCardContent>
+            <UiCardFooter>{{ dayjs(card.$createdAt).format('DD MMMM YYYY') }}</UiCardFooter>
           </UiCard>
         </div>
       </div>
